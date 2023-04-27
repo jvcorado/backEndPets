@@ -96,7 +96,7 @@ app.post("/blog", upload.single("image"), async (req, res) => {
   
     let info = await transporter.sendMail({
       from: "contatopets@petsmellon.com.br",
-      to: "jenifer.alves@patense.com.br",
+      to: "site@patense.com.br",
       subject: "Contato pelo Site",
       html: `
         <p><strong>Nome:</strong> ${nome}</p>

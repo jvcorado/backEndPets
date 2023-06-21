@@ -23,19 +23,6 @@ const db = mysql.createPool({
   database: "petsmellon_site2023",
 });
 
-/* function checkDbConnection(req, res, next) {
-  db.getConnection(function (err, connection) {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Erro ao conectar com o banco de dados.");
-      return;
-    }
-
-    console.log("Conexão bem-sucedida com o banco de dados.");
-    connection.release();
-    next();
-  });
-} */
 const s3 = new S3({
   region: "us-east-1",
   credentials: {
@@ -67,28 +54,6 @@ app.use((err, req, res, next) => {
       message: err.message,
       stack: err.stacktrace,
     },
-  });
-});
-
-app.post("/nomes", (req, res) => {
-  const { nome } = req.body;
-
-  if (!nome) {
-    res.status(400).send({ msg: "Nome não fornecido." });
-    return;
-  }
-
-  console.log({ nome });
-
-  db.query("INSERT INTO nome (nome) VALUES (?)", [nome], (error, result) => {
-    if (error) {
-      console.error(error);
-      res.status(500).send({ msg: "Erro ao processar a solicitação" });
-      return;
-    }
-
-    console.log("Linhas afetadas:", result.affectedRows);
-    res.status(201).send({ msg: "Nome adicionado com sucesso" });
   });
 });
 
@@ -469,42 +434,6 @@ app.put("/blog/:uuid", upload.single("image"), async (req, res) => {
       res.status(500).send({ msg: "Erro ao processar a solicitação" });
     });
 });
-
-//smtp email
-/* async function main() {
-    // Generate test SMTP service  account from ethereal.email
-    // Only needed if you don't have a real mail account for testing
-    let testAccount = await nodemailer.createTestAccount();
-  
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-      host: "smtp-mail.outlook.com",
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: "contatopets@petsmellon.com.br",
-        pass: "Patense2438"
-      },
-    });
-  
-    // send mail with defined transport object
-    let info = await transporter.sendMail({
-      from: "contatopets@petsmellon.com.br", // sender address
-      to: "benolopesdias@gmail.com", // list of receivers
-      subject: "teste", // Subject line
-      text: "teste", // plain text body
-  // html body
-    });
-  
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-  
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-  }
-  
-  main().catch(console.error); */
 
 app.delete("/blog/:uuid", async (req, res) => {
   try {

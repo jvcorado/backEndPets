@@ -17,10 +17,10 @@ const port = process.env.PORT || 4000;
 require("dotenv").config();
 
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "Ae@1254453",
-  database: "pets",
+  host: "vps-5528980.bmouseproductions.com",
+  user: "petsmellon_bm2023",
+  password: "Ae@125445364",
+  database: "petsmellon_site2023",
 });
 
 /* function checkDbConnection(req, res, next) {

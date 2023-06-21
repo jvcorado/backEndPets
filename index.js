@@ -356,39 +356,8 @@ app.post("/forgotpassword", (req, res) => {
   });
 });
 
-app.put(
-  "/samples/:id",
-  authenticateToken,
-  upload.single("file"),
-  (req, res) => {
-    const { id } = req.params;
-    const { status } = req.body;
-
-    if (!req.file) {
-      throw Error("Arquivo não encontrado");
-    }
-
-    const downloadUrl = req.file.location;
-
-    console.log("arquivo:", downloadUrl);
-
-    // Atualiza o status e o downloadUrl da amostra
-    db.query(
-      "UPDATE Samples SET status = ?, downloadUrl = ? WHERE id = ?",
-      ["Completo", downloadUrl, id],
-      (err, result) => {
-        if (err) {
-          throw err;
-        }
-
-        res.status(200).json({ message: "Amostra atualizada com sucesso" });
-      }
-    );
-  }
-);
-
 app.put("/blog/:uuid", upload.single("image"), async (req, res) => {
-  const { conteudo, title } = req.body;
+  const { conteudo, title, url_amigavel } = req.body;
   const uuid = req.params.uuid;
 
   // Verifique se uma foto foi enviada
@@ -403,6 +372,10 @@ app.put("/blog/:uuid", upload.single("image"), async (req, res) => {
   if (conteudo) {
     query += "conteudo = ?, ";
     queryParams.push(conteudo);
+  }
+  if (url_amigavel) {
+    query += "url_amigavel = ?, ";
+    queryParams.push(url_amigavel);
   }
   if (title) {
     query += "title = ?, ";

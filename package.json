@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/abort-controller": "^3.357.0",
     "aws-sdk": "^2.1369.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",

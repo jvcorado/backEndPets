@@ -141,6 +141,7 @@ app.get("/blog/:url_amigavel", async (req, res) => {
 
 app.post("/enviar-email", async (req, res) => {
   const { nome, email, telefone, cidadeUF, empresa, mensagem } = req.body;
+  const arquivo = req.file;
 
   let transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com",
@@ -151,10 +152,10 @@ app.post("/enviar-email", async (req, res) => {
       pass: "Patense2438",
     },
   });
-
+  //site@patense.com.br
   let info = await transporter.sendMail({
     from: "contatopets@petsmellon.com.br",
-    to: "site@patense.com.br",
+    to: "benolopesdias@gmail.com",
     subject: "Contato pelo Site",
     html: `
         <p><strong>Nome:</strong> ${nome}</p>
@@ -164,6 +165,12 @@ app.post("/enviar-email", async (req, res) => {
         <p><strong>Empresa:</strong> ${empresa}</p>
         <p><strong>Mensagem:</strong> ${mensagem}</p>
       `,
+    attachments: [
+      {
+        filename: arquivo.originalname,
+        content: arquivo.buffer,
+      },
+    ],
   });
 
   console.log("Message sent: %s", info.messageId);

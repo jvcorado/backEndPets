@@ -39,9 +39,9 @@ const storage = multerS3({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-
+const storage2 = multer.memoryStorage();
 const upload = multer({ storage: storage });
-
+const uploads = multer({ storage: storage2 });
 app.use("/uploads", express.static("uploads")); //criando a pasta caso eu nao tenha
 app.use(express.json());
 app.use(cors());
@@ -139,7 +139,7 @@ app.get("/blog/:url_amigavel", async (req, res) => {
   }
 });
 
-app.post("/enviar-email", async (req, res) => {
+app.post("/enviar-email", uploads.single("arquivo"), async (req, res) => {
   const { nome, email, telefone, cidadeUF, empresa, mensagem } = req.body;
   const arquivo = req.file;
 

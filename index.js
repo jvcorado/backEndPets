@@ -152,10 +152,10 @@ app.post("/enviar-email", uploads.single("arquivo"), async (req, res) => {
       pass: "Patense2438",
     },
   });
-  //site@patense.com.br
+  //
   let info = await transporter.sendMail({
     from: "contatopets@petsmellon.com.br",
-    to: "benolopesdias@gmail.com",
+    to: "site@patense.com.br",
     subject: "Contato pelo Site",
     html: `
         <p><strong>Nome:</strong> ${nome}</p>
